@@ -18,6 +18,9 @@ import copy
 import pygame
 
 import tkinter as tk
+from tkinter import ttk
+import time
+
 from threading import Thread
 
 
@@ -245,7 +248,70 @@ async def play_mp3(file_path):
     pygame.mixer.quit()
     pygame.quit()
 
+#获取当前时间
+def get_current_time(self):
+    current_time = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+    return current_time
 
+# 配置页面
+def save_config():
+    # 在这里编写保存配置的逻辑
+    print("保存配置")
+
+def show_config_window():
+    config_window = tk.Toplevel(root)
+    config_window.title("配置页面")
+
+    # 添加配置选项，例如：
+    label = tk.Label(config_window, text="配置项1:")
+    label.pack(pady=10)
+
+    entry = tk.Entry(config_window)
+    entry.pack()
+
+    save_button = tk.Button(config_window, text="保存配置", command=save_config)
+    save_button.pack(pady=20)
+
+def save_settings():
+    selected_option1 = combobox1.get()
+    selected_option2 = combobox2.get()
+
+    # 在这里可以根据选择的选项执行相应的操作或保存设置
+    print("Option 1 selected:", selected_option1)
+    print("Option 2 selected:", selected_option2)
+
+def open_settings():
+    settings_window = tk.Toplevel(root)
+    settings_window.title("Settings")
+    # 添加设置页面的内容和控件
+    # 添加第一个下拉框
+    label1 = tk.Label(settings_window, text="Parameter 1:")
+    label1.pack()
+
+    options1 = ["Option 1", "Option 2", "Option 3"]
+    combobox1 = ttk.Combobox(settings_window, values=options1)
+    combobox1.pack()
+
+    # 添加第二个下拉框
+    label2 = ttk.Label(settings_window, text="Parameter 2:")
+    label2.pack()
+
+    options2 = ["Choice A", "Choice B", "Choice C"]
+    combobox2 = tk.Combobox(settings_window, values=options2)
+    combobox2.pack()
+
+    # 添加保存按钮
+    save_button = tk.Button(settings_window, text="Save Settings", command=save_settings)
+    save_button.pack()
+    # # 添加复选框
+    # check_var1 = tk.IntVar()
+    # check_var2 = tk.IntVar()
+
+    # checkbutton1 = tk.Checkbutton(settings_window, text="Option 1", variable=check_var1)
+    # checkbutton1.pack()
+
+    # checkbutton2 = tk.Checkbutton(settings_window, text="Option 2", variable=check_var2)
+    # checkbutton2.pack()
 
 if __name__ == '__main__':
         # 创建 Tkinter 主窗口
@@ -259,6 +325,16 @@ if __name__ == '__main__':
     x = (screen_width // 2) - (window_width // 2)  # 计算窗口的水平位置
     y = (screen_height // 2) - (window_height // 2)  # 计算窗口的垂直位置
     root.geometry(f"{window_width}x{window_height}+{x}+{y}")
+    root.resizable(False, False)#宽高能否改变
+
+    # 创建菜单栏
+    menubar = tk.Menu(root)
+    root.config(menu=menubar)
+
+    # 添加菜单选项
+    file_menu = tk.Menu(menubar, tearoff=0)
+    menubar.add_cascade(label="Option", menu=file_menu)
+    file_menu.add_command(label="Settings", command=open_settings)
 
     # 创建一个标签
     label = tk.Label(root, text="请输入内容：")
@@ -275,6 +351,9 @@ if __name__ == '__main__':
     # 将主窗口的列设置为居中
     root.grid_columnconfigure(0, weight=1)
     
+    # # 添加按钮来打开配置页面
+    # config_button = tk.Button(root, text="打开配置页面", command=show_config_window)
+    # config_button.grid(row=0,column=0,pady=20)
 
     
     # 运行 Tkinter 主循环
